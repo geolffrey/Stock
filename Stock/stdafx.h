@@ -9,6 +9,8 @@
 #define VC_EXTRALEAN            // 从 Windows 头中排除极少使用的资料
 #endif
 
+#define _AFX_NO_MFC_CONTROLS_IN_DIALOGS  //对话框中不使用mfc增强控件，这样大幅缩减exe文件大小，注意所有CialogEx要改为CDialog
+
 #include "targetver.h"
 
 #define _ATL_CSTRING_EXPLICIT_CONSTRUCTORS      // 某些 CString 构造函数将是显式的
