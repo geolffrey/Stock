@@ -3,7 +3,6 @@
 //
 
 #pragma once
-#include "ChildView.h"
 #include "HomeBox.h"
 
 class CMainFrame : public CFrameWnd
@@ -36,7 +35,7 @@ public:
 protected:  // 控件条嵌入成员
 	CToolBar          m_wndToolBar;
 	CStatusBar        m_wndStatusBar;
-	CChildView    m_wndView;
+	/*CChildView    m_wndView;*/
 
 	CImageList m_ImageList;
 
