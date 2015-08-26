@@ -43,10 +43,14 @@ protected:  // 控件条嵌入成员
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnSetFocus(CWnd *pOldWnd);
+
 	DECLARE_MESSAGE_MAP()
 
 public:
 	afx_msg void OnGetMinMaxInfo(MINMAXINFO* lpMMI);
+	afx_msg void OnPageHome();
+	afx_msg void OnPageFind();
+	afx_msg void OnPageImport();
 };
 
 

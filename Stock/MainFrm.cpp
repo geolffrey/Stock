@@ -19,6 +19,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
 	ON_WM_GETMINMAXINFO()
+
+	ON_COMMAND(IDB_HOMEPAGE, OnPageHome)
+	ON_COMMAND(IDB_IMPORT, OnPageImport)
+	ON_COMMAND(IDB_FIND, OnPageFind)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -200,4 +204,21 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 	//设定窗体的最小大小为800X600，必须先执行父类的方法
 	lpMMI->ptMinTrackSize.x = 800;
 	lpMMI->ptMinTrackSize.y = 600;
+}
+
+afx_msg void CMainFrame::OnPageHome()
+{
+	TRACE0("点击了：行情\n");
+}
+
+
+afx_msg void CMainFrame::OnPageFind()
+{
+	TRACE0("点击了：图形\n");
+}
+
+
+afx_msg void CMainFrame::OnPageImport()
+{
+	TRACE0("点击了：设置\n");
 }
