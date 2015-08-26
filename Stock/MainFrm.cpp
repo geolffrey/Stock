@@ -18,6 +18,7 @@ IMPLEMENT_DYNAMIC(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_WM_SETFOCUS()
+	ON_WM_GETMINMAXINFO()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -119,3 +120,15 @@ BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO*
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }
 
+
+
+void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+
+	CFrameWnd::OnGetMinMaxInfo(lpMMI);
+
+	//设定窗体的最小大小为800X600，必须先执行父类的方法
+	lpMMI->ptMinTrackSize.x = 800;
+	lpMMI->ptMinTrackSize.y = 600;
+}
