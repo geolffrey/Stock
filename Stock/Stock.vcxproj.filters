@@ -68,5 +68,14 @@
     <Image Include="res\Toolbar.bmp">
       <Filter>资源文件</Filter>
     </Image>
+    <Image Include="res\01.HomePageHH.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\02.ImportHH.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\03.FindHH.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

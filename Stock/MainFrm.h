@@ -37,6 +37,8 @@ protected:  // 控件条嵌入成员
 	CStatusBar        m_wndStatusBar;
 	CChildView    m_wndView;
 
+	CImageList m_ImageList;
+
 // 生成的消息映射函数
 protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);

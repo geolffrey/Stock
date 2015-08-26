@@ -214,6 +214,9 @@
     <None Include="res\Stock.rc2" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="res\01.HomePageHH.bmp" />
+    <Image Include="res\02.ImportHH.bmp" />
+    <Image Include="res\03.FindHH.bmp" />
     <Image Include="res\Stock.ico" />
     <Image Include="res\Toolbar.bmp" />
   </ItemGroup>
