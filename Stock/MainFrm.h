@@ -4,6 +4,7 @@
 
 #pragma once
 #include "ChildView.h"
+#include "HomeBox.h"
 
 class CMainFrame : public CFrameWnd
 {
@@ -38,6 +39,8 @@ protected:  // 控件条嵌入成员
 	CChildView    m_wndView;
 
 	CImageList m_ImageList;
+
+	CHomeBox* m_pMainView;
 
 // 生成的消息映射函数
 protected:

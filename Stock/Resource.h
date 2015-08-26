@@ -6,9 +6,11 @@
 #define IDR_MAINFRAME                   128
 #define IDR_StockTYPE                   130
 #define IDB_HOMEPAGE                    310
+#define IDD_DIALOG_BLANK                310
 #define IDB_IMPORT                      311
-#define IDB_BITMAP1                     312
+#define IDD_DIALOG_HOME                 311
 #define IDB_FIND                        312
+#define IDC_STATIC_HOME                 1001
 
 // Next default values for new objects
 // 

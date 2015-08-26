@@ -50,11 +50,43 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 
 	// 创建一个视图以占用框架的工作区
-	if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
+	//if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
+	//{
+	//	TRACE0("未能创建视图窗口\n");
+	//	return -1;
+	//}
+
+	// 创建一个视图以占用框架的工作区
+
+	//在这里使用CFormView
+	CCreateContext ccx;
+	ccx.m_pNewViewClass = RUNTIME_CLASS(CHomeBox);
+	m_pMainView = DYNAMIC_DOWNCAST(CHomeBox, this->CreateView(&ccx));
+	if (!m_pMainView)
 	{
-		TRACE0("未能创建视图窗口\n");
-		return -1;
+		TRACE0("Creation of view failed\n");
 	}
+	//另一种方式：
+	// Creating the child view step-by-step
+	// First order the frame window to create a new view for us
+	//CWnd* pNewView = this->CreateView(&ccx);
+
+	//// Cast down from the returned pointer
+	//m_pMainView = DYNAMIC_DOWNCAST(CHomeBox, pNewView);
+
+	//// Succesfull ?
+	//if (!m_pMainView)
+	//{
+	//	TRACE0("Creation of view failed\n");
+	//}
+
+	//RecalcLayout(); //这里实际上不需要重新布局
+	// Show the view and do an initial update
+	//m_pMainView->ShowWindow(SW_SHOW);
+	//m_pMainView->OnInitialUpdate();
+	// Set this view active
+	SetActiveView(m_pMainView);
+
 
 	//if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
 	//	!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
@@ -132,11 +164,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;      // 未能创建
 	}
 
-	if (!m_wndStatusBar.Create(this))
-	{
-		TRACE0("未能创建状态栏\n");
-		return -1;      // 未能创建
-	}
 	m_wndStatusBar.SetIndicators(indicators, sizeof(indicators)/sizeof(UINT));
 
 	// TODO: 如果不需要可停靠工具栏，则删除这三行
@@ -180,7 +207,8 @@ void CMainFrame::Dump(CDumpContext& dc) const
 void CMainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
 {
 	// 将焦点前移到视图窗口
-	m_wndView.SetFocus();
+	//m_wndView.SetFocus();
+	m_pMainView->SetFocus();
 }
 
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
@@ -208,17 +236,17 @@ void CMainFrame::OnGetMinMaxInfo(MINMAXINFO* lpMMI)
 
 afx_msg void CMainFrame::OnPageHome()
 {
-	TRACE0("点击了：行情\n");
+	TRACE0("点击了：主页\n");
 }
 
 
 afx_msg void CMainFrame::OnPageFind()
 {
-	TRACE0("点击了：图形\n");
+	TRACE0("点击了：搜索\n");
 }
 
 
 afx_msg void CMainFrame::OnPageImport()
 {
-	TRACE0("点击了：设置\n");
+	TRACE0("点击了：导入\n");
 }
