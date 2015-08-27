@@ -53,6 +53,8 @@ public:
 	afx_msg void OnPageHome();
 	afx_msg void OnPageFind();
 	afx_msg void OnPageImport();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 };
 
 

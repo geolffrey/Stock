@@ -23,6 +23,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(IDB_HOMEPAGE, OnPageHome)
 	ON_COMMAND(IDB_IMPORT, OnPageImport)
 	ON_COMMAND(IDB_FIND, OnPageFind)
+	ON_WM_SIZE()
+	ON_WM_ERASEBKGND()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -55,7 +57,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//	TRACE0("未能创建视图窗口\n");
 	//	return -1;
 	//}
-
 	// 创建一个视图以占用框架的工作区
 
 	//在这里使用CFormView
@@ -80,12 +81,13 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//	TRACE0("Creation of view failed\n");
 	//}
 
-	//RecalcLayout(); //这里实际上不需要重新布局
+	RecalcLayout(); //这里实际上不需要重新布局
 	// Show the view and do an initial update
 	//m_pMainView->ShowWindow(SW_SHOW);
 	//m_pMainView->OnInitialUpdate();
 	// Set this view active
 	SetActiveView(m_pMainView);
+
 
 
 	//if (!m_wndToolBar.CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
@@ -121,7 +123,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.EnableToolTips();
 
 	//第三步：为工具栏增加按钮
-	m_wndToolBar.SetButtons(images, 5);
+	m_wndToolBar.SetButtons(images, 3);
 	m_wndToolBar.SetButtonText(0, L"主页");
 	m_wndToolBar.SetButtonText(1, L"搜索");
 	m_wndToolBar.SetButtonText(2, L"导入");
@@ -157,6 +159,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//这样状态改为可用，配合PRESSED，实现单一的提示目前哪项功能
 	//pToolbarCtrl->SetState(IDB_BITMAP_IMPORT, TBSTATE_ENABLED);
 
+	
 
 	if (!m_wndStatusBar.Create(this))
 	{
@@ -214,8 +217,9 @@ void CMainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
 	// 让视图第一次尝试该命令
-	if (m_pMainView->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
-		return TRUE;
+	if (m_pMainView && ::IsWindow(m_pMainView->GetSafeHwnd()))
+		if (m_pMainView->OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+			return TRUE;
 
 	// 否则，执行默认处理
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
@@ -249,4 +253,48 @@ afx_msg void CMainFrame::OnPageFind()
 afx_msg void CMainFrame::OnPageImport()
 {
 	TRACE0("点击了：导入\n");
+}
+
+void CMainFrame::OnSize(UINT nType, int cx, int cy)
+{
+	//CFrameWnd::OnSize(nType, cx, cy);
+
+	m_nIdleFlags &= ~idleLayout;
+
+	CWnd::OnSize(nType, cx, cy);
+
+	m_bInRecalcLayout = TRUE;
+	RepositionBars(0, 0xffff, 0, reposExtra, &m_rectBorder);
+	m_bInRecalcLayout = FALSE;
+
+	if (GetActiveView() != NULL)
+	{
+		CRect Rect;
+		GetClientRect(Rect);
+		RECT rectTB = { 0 };
+		
+		//减去工具栏的高度
+		::GetWindowRect(m_wndToolBar, &rectTB);
+		Rect.top += rectTB.bottom - rectTB.top;
+
+		//减去状态栏的高度
+		::GetWindowRect(m_wndStatusBar, &rectTB);
+		Rect.bottom -= rectTB.bottom - rectTB.top;
+
+		GetActiveView()->SetWindowPos(NULL, Rect.left + 50, Rect.top + 50, Rect.Width() - 100, Rect.Height() - 100, SWP_SHOWWINDOW);
+	}
+
+	// TODO: 在此处添加消息处理程序代码
+}
+
+
+//每次需要清除背景，否则会有虚影
+BOOL CMainFrame::OnEraseBkgnd(CDC* pDC)
+{
+	CRect Rect;
+	GetClientRect(&Rect);
+	pDC->FillSolidRect(&Rect, ::GetSysColor(COLOR_APPWORKSPACE));
+
+	return TRUE;
+
 }
